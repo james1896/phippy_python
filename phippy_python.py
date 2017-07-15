@@ -19,13 +19,62 @@ Base.query = db_session.query_property()
 
 
 # from users import views
-
+# 得到商家（根据store_type区分是旅行社还是餐馆）
 @app.route('/findstore',methods=['GET','POST'])
 def findStore():
-    store = Store.query.filter().first()
-    print store.name
-    return jsonify({"a":"b"})
+    stores = Store.query.filter().all()
+    list = []
+    for store in stores:
+        dict = {}
+        dict['store_id']        = store.store_id
+        dict['store_type']      = store.store_type
+        dict['name']            = store.name
+        dict['phone_number']    = store.phone_number
+        dict['adress']          = store.adress
+        dict['rank']            = store.rank
+        dict['rec_article_id']  = store.rec_article_id
+        list.append(dict)
+    return jsonify({"interface":"得到商家",'data':list})
 
+# 得到旅行相关的文章
+@app.route('/getarticle',methods=['GET','POST'])
+def getarticle():
+    articles = Tour_article.query.filter().all()
+    list = []
+    for article in articles:
+        dict = {}
+        dict['author']    = article.author
+        dict['title']     = article.title
+        dict['content']   = article.content
+        dict['time']      = article.time
+        dict['img_url']   = article.img_url
+        dict['rank']      = article.rank
+
+        list.append(dict)
+    return jsonify({"interface":"得到旅行相关的文章",'data':list})
+
+# 得到餐品
+@app.route('/getfood',methods=['GET','POST'])
+def getfood():
+    articles = Food_article.query.filter().all()
+    list = []
+    for article in articles:
+        dict = {}
+        dict['food_id']    = article.food_id
+        dict['store_id']     = article.store_id
+        dict['title']   = article.title
+        dict['time']      = article.time
+        dict['price']   = article.price
+        dict['rank']      = article.rank
+
+        list.append(dict)
+    return jsonify({"interface":"得到餐品",'data':list})
+
+
+
+
+###############################################################
+###############################################################
 
 # 定义商家对象:
 class Store(Base):
