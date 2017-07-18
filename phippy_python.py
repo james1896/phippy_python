@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask
+from flask import Flask, render_template
 from sqlalchemy import create_engine, Column, String, Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -130,7 +130,7 @@ def init_db():
 @app.route('/')
 def hello_world():
     init_db()
-    return 'Hello World!'
+    return render_template("phone_type.html")
 
 
 if __name__ == '__main__':

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>位置类型</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1,minimum-scale=1">
+</head>
+<body>
+
+<div id="container">
+
+</div>
+
+<script>
+	var deviceInfo = (function (ua) {
+
+		var info = {};
+
+		info.isAndroid = /android/.test(ua);
+		info.isIPhone = /iphone/.test(ua);
+		info.isIpad = /ipad/.test(ua);
+		info.isIOS =  info.isIPhone || info.isIpad;
+
+		info.osType = (function () {
+			if(info.isAndroid) {
+				return "Android";
+			}
+
+			if(info.isIOS) {
+				return "iOS";
+			}
+
+			return "Other";
+		})();
+
+		return info;
+	})(navigator.userAgent.toLowerCase());
+
+
+	var container = document.getElementById("container");
+	container.innerHTML = "os:" + deviceInfo.osType + "<br>"
+						+ "isAndroid:" + deviceInfo.isAndroid + "<br>"
+						+ "isIpad:" + deviceInfo.isIpad + "<br>"
+						+ "isPhone:" + deviceInfo.isIPhone;
+
+
+	if(deviceInfo.isAndroid) {
+		// alert("yes");
+	}
+</script>
+</body>
+</html>
