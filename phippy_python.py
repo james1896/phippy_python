@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+
 from flask import Flask, render_template
 from sqlalchemy import create_engine, Column, String, Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 from flask import jsonify
+from flask import request
 
 
 app = Flask(__name__)
@@ -22,7 +24,12 @@ Base.query = db_session.query_property()
 # 得到商家（根据store_type区分是旅行社还是餐馆）
 @app.route('/getstore',methods=['GET','POST'])
 def findStore():
-    stores = Store.query.filter().all()
+
+    if request.method != 'POST':
+        return jsonify({"msg":"is not post"})
+
+    store_type = request.form.get('store_type')
+    stores = Store.query.filter(Store.store_type == store_type).all()
     list = []
     for store in stores:
         dict = {}
@@ -44,6 +51,10 @@ def findStore():
 # 得到旅行相关的文章
 @app.route('/getarticle',methods=['GET','POST'])
 def getarticle():
+
+    if request.method != 'POST':
+        return jsonify({"msg":"is not post"})
+
     articles = Article.query.filter().all()
     list = []
     for article in articles:
@@ -59,27 +70,38 @@ def getarticle():
     return jsonify({"interface":"得到旅行相关的文章",'data':list})
 
 # 得到餐品
-@app.route('/getgoods',methods=['GET','POST'])
+@app.route('/getgoods',methods=['POST'])
 def getfood():
-    goods = Goods.query.filter().all()
+
+    if request.method != 'POST':
+        return jsonify({"msg":"is not post"})
+
+    store_id = request.form.get('store_id')
+    goods = Goods.query.filter(Goods.store_id == store_id).all()
     list = []
     for tmp in goods:
         dict = {}
         dict['goods_id']    = tmp.goods_id
         dict['store_id']     = tmp.store_id
         dict['name']   = tmp.name
+        dict['price'] = tmp.price
+        dict['rank'] = tmp.rank
         dict['img_url'] = tmp.img_url
         dict['publish_time'] = tmp.publish_time
         dict['publisher'] = tmp.publisher
         dict['remark'] = tmp.remark
         dict['describe'] = tmp.describe
-        dict['rank']      = tmp.rank
+
         list.append(dict)
 
     return jsonify({"interface":"得到餐品",'data':list})
 
 
-
+def log(func):
+    def wrapper(*args, **kw):
+        print 'call %s():' % func.__name__
+        return func(*args, **kw)
+    return wrapper
 
 ###############################################################
 ###############################################################
