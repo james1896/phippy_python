@@ -79,29 +79,49 @@ def getfood():
 # 定义商家对象:
 class Store(Base):
     # 表的名字:
-    __tablename__ = 'store'
+    __tablename__ = 't_store'
 
     # 表的结构:
     id              = Column(Integer, primary_key=True)
     store_id        = Column(Integer, unique=True)
 
+    # 0.admin
     # 1是旅行社
     # 2是餐馆
+    #  3.药店
+    # 4.保养品
+    # 5.个人
     store_type      = Column(Integer)
+
+    # 店名
     name            = Column(String(50))
-    phone_number    = Column(String(20))
+
+    # 电话号
+    phone_number    = Column(String(18))
+
+    # 微信号
+    wechat          = Column(String(30))
+
+    # 配送时间
+    deliver_time    = Column(String(30))
+
+    # 起送条件
+    qisong_conticon = Column(String(30))
+
+    # 店家地址
     adress            = Column(String(100))
+
+    # 排行
     rank            = Column(Integer)
-    rec_article_id  = Column(Integer)
 
 # 定义Tour_article对象:
-class Tour_article(Base):
+class Articles(Base):
     # 表的名字:
-    __tablename__ = 'tour_article'
+    __tablename__ = 't_article'
 
     # 表的结构:
     id          = Column(Integer, primary_key=True)
-    author      = Column(String(20))
+    store_id      = Column(String(20))
     title       = Column(String(20))
     content     = Column(String(1000))
     time        = Column(DateTime)
@@ -109,19 +129,42 @@ class Tour_article(Base):
     rank        = Column(Integer)
 
 
-# 定义Food_article对象:
-class Food_article(Base):
+# 定义商品:
+class Goods(Base):
     # 表的名字:
-    __tablename__ = 'store_food'
+    __tablename__ = 't_goods'
 
     # 表的结构:
     id         = Column(Integer, primary_key=True)
-    food_id    = Column(Integer, unique=True)
+
+    # 商品id
+    goods_id    = Column(Integer, unique=True)
+
+    # 商店id
     store_id   = Column(Integer)
-    title      = Column(String(20))
-    time       = Column(DateTime)
-    price    = Column(String(15))
-    rank            = Column(Integer)
+
+    # 商品名
+    name      = Column(String(20))
+    price = Column(String(15))
+
+    # 商品排行
+    rank = Column(Integer)
+
+    # 商品图片url
+    img_url     = Column(String(60))
+
+    # 发布时间
+    publish_time = Column(String(20))
+
+    # 发布人
+    publisher = Column(String(20))
+
+    # 备注
+    remark = Column(String(120))
+
+    # 描述
+    describe = Column(String(100))
+
 
 
 def init_db():
