@@ -20,7 +20,7 @@ Base.query = db_session.query_property()
 
 # from users import views
 # 得到商家（根据store_type区分是旅行社还是餐馆）
-@app.route('/findstore',methods=['GET','POST'])
+@app.route('/getstore',methods=['GET','POST'])
 def findStore():
     stores = Store.query.filter().all()
     list = []
@@ -29,21 +29,26 @@ def findStore():
         dict['store_id']        = store.store_id
         dict['store_type']      = store.store_type
         dict['name']            = store.name
+        dict['img_url']         = store.img_url
         dict['phone_number']    = store.phone_number
+        dict['wechat']          = store.wechat
+        dict['deliver_time']    = store.deliver_time
+        dict['qisong_condition'] = store.qisong_condition
+
         dict['adress']          = store.adress
         dict['rank']            = store.rank
-        dict['rec_article_id']  = store.rec_article_id
+
         list.append(dict)
     return jsonify({"interface":"得到商家",'data':list})
 
 # 得到旅行相关的文章
 @app.route('/getarticle',methods=['GET','POST'])
 def getarticle():
-    articles = Tour_article.query.filter().all()
+    articles = Article.query.filter().all()
     list = []
     for article in articles:
         dict = {}
-        dict['author']    = article.author
+        dict['store_id']    = article.store_id
         dict['title']     = article.title
         dict['content']   = article.content
         dict['time']      = article.time
@@ -54,20 +59,23 @@ def getarticle():
     return jsonify({"interface":"得到旅行相关的文章",'data':list})
 
 # 得到餐品
-@app.route('/getfood',methods=['GET','POST'])
+@app.route('/getgoods',methods=['GET','POST'])
 def getfood():
-    articles = Food_article.query.filter().all()
+    goods = Goods.query.filter().all()
     list = []
-    for article in articles:
+    for tmp in goods:
         dict = {}
-        dict['food_id']    = article.food_id
-        dict['store_id']     = article.store_id
-        dict['title']   = article.title
-        dict['time']      = article.time
-        dict['price']   = article.price
-        dict['rank']      = article.rank
-
+        dict['goods_id']    = tmp.goods_id
+        dict['store_id']     = tmp.store_id
+        dict['name']   = tmp.name
+        dict['img_url'] = tmp.img_url
+        dict['publish_time'] = tmp.publish_time
+        dict['publisher'] = tmp.publisher
+        dict['remark'] = tmp.remark
+        dict['describe'] = tmp.describe
+        dict['rank']      = tmp.rank
         list.append(dict)
+
     return jsonify({"interface":"得到餐品",'data':list})
 
 
@@ -96,6 +104,9 @@ class Store(Base):
     # 店名
     name            = Column(String(50))
 
+    # 商家展示图片
+    img_url         = Column(String(100))
+
     # 电话号
     phone_number    = Column(String(18))
 
@@ -106,7 +117,7 @@ class Store(Base):
     deliver_time    = Column(String(30))
 
     # 起送条件
-    qisong_conticon = Column(String(30))
+    qisong_condition = Column(String(30))
 
     # 店家地址
     adress            = Column(String(100))
@@ -115,7 +126,7 @@ class Store(Base):
     rank            = Column(Integer)
 
 # 定义Tour_article对象:
-class Articles(Base):
+class Article(Base):
     # 表的名字:
     __tablename__ = 't_article'
 
