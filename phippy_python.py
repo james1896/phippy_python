@@ -147,6 +147,13 @@ class Store(Base):
     # 排行
     rank            = Column(Integer)
 
+   #当前开业还是关业  （0 1）
+    # operating_status = Column(Integer)
+    #
+    # # 续费状态 什么时间过期
+    # expire_time   = Column(String)
+
+
 # 定义Tour_article对象:
 class Article(Base):
     # 表的名字:
@@ -210,7 +217,7 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run('10.71.66.2',debug=True)
 
 # 在您的应用当中以一个显式调用 SQLAlchemy , 您只需要将如下代码放置在您应用的模块中。
 # Flask 将会在请求结束时自动移除数据库会话:
