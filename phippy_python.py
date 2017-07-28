@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
+import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory, Response
 from sqlalchemy import create_engine, Column, String, Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 from flask import jsonify
 from flask import request
-
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 engine = create_engine('mysql://root:123456@127.0.0.1:3306/phippy?charset=utf8',
@@ -97,11 +98,116 @@ def getfood():
     return jsonify({"interface":"得到餐品",'data':list})
 
 
-def log(func):
-    def wrapper(*args, **kw):
-        print 'call %s():' % func.__name__
-        return func(*args, **kw)
-    return wrapper
+
+
+
+############################    服务器 image     #############################################
+############################    服务器 image     #############################################
+############################    服务器 image     #############################################
+
+##上传图片到服务器
+
+#####需要请教大神#########
+#上传文件到服务器，可能存在安全隐患
+
+#上传图片到根目录下载images文件夹
+UPLOAD_FOLDER=r'images'
+
+# 添加指定允许文件类型的范围
+ALLOWED_EXTENSIONS=set(['txt','pdf','png','jpg','jpeg','gif'])
+
+#判断上传文件类型
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
+
+@app.route('/img',methods=['POST'])
+def getimg():
+    # file = request.files['file']
+    # 表示，从request请求的files字典中，
+    # 取出file对应的文件。这个文件是一个FileStorage对象
+
+    # request的files属性，files是一个MultiDict的形式，
+    # 而里面的每个文件，都是一个FileStorage对象
+    file = request.files['file']
+    if file and allowed_file(file.filename):
+        # 再来看下这个函数的功能，其实他为了保证文件名不会影响到系统，
+        # 他就把文件名里面的斜杠和空格，替换成了下划线
+        # 这样，就保证了文件只会在当前目录使用，而不会由于路径问题被利用去做其他事情。
+        # 所以，在储存文件之前，通过这个函数把文件名先修改一下
+
+
+
+        # 当前文件所在路径
+        filename = secure_filename(file.filename)
+
+        # 这个文件对象拥有一个函数功能来保存文件，叫做save()
+        # 这个文件对象还拥有一个属性来提取文件名，叫做filename
+        # file.save(os.path.join(UPLOAD_FOLDER, file.filename))
+        basepath = os.path.dirname(__file__)
+        file.save(os.path.join(basepath,UPLOAD_FOLDER, 'fileName.png'))
+
+        # --------------------------------------------------------------------------
+        # 获取文件和文件夹大小 (tyte)
+        # --------------------------------------------------------------------------
+        # import os
+        # from os.path import join, getsize
+        # os.path.getsize  获取文件大小 (bytes)
+
+
+        # def getdirsize(dir):
+        #     size = 0L
+        #     for root, dirs, files in os.walk(dir):
+        #         size += sum([getsize(join(root, name)) for name in files])
+        #     return size
+        # --------------------------------------------------------------------------
+        return jsonify({'a':'b'})
+    return jsonify({'error':'1'})
+
+
+@app.route('/imgs',methods=['POST'])
+def getimgs():
+    files = request.files.getlist('files')
+
+    for file in files:
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            # 当前文件所在路径
+            basepath = os.path.dirname(__file__)
+            print os.path.join(basepath, UPLOAD_FOLDER,filename)
+            file.save(os.path.join(basepath, UPLOAD_FOLDER,filename))
+        else:
+            print 'budui'
+
+
+    return jsonify({'error':'1'})
+
+#通过图片名 得到某个图片
+@app.route('/uploadedfile/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
+
+##下载服务器图片
+@app.route('/image/<imageid>')
+def getImage(imageid):
+    try:
+        #根目录imamges文件夹下 {}是匹配的意思
+        image = file("images/{}.jpg".format(imageid))
+        resp = Response(image, mimetype="image/jpeg")
+        return resp
+    except Exception,e:
+        return jsonify({'error':'error the image path'})
+
+    #第二种方式也可以实现 但是不知道这两种的区别
+    # with open('image/' + str(imageid) + '.jpg') as f:
+    #     return Response(f.read(), mimetype='image/jpeg')
+
+
+
+###########################################################################################
+###########################################################################################
+###########################################################################################
+
+
 
 ###############################################################
 ###############################################################
@@ -217,7 +323,7 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    app.run('10.71.66.2',debug=True)
+    app.run('10.71.66.2',debug=True,port=5001)
 
 # 在您的应用当中以一个显式调用 SQLAlchemy , 您只需要将如下代码放置在您应用的模块中。
 # Flask 将会在请求结束时自动移除数据库会话:
