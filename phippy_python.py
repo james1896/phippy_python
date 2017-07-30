@@ -2,7 +2,7 @@
 import os
 
 from flask import Flask, render_template, send_from_directory, Response
-from sqlalchemy import create_engine, Column, String, Integer, DateTime
+from sqlalchemy import create_engine, Column, String, Integer, DateTime, Sequence
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 from flask import jsonify
@@ -135,6 +135,7 @@ def getimg():
     store_id = request.form.get('store_id')
     stores = Store.query.filter(Store.store_id == store_id).all()
 
+    # 判断 store_id 是否正确
     if(len(stores) != 1):
         return jsonify({'error':'错误'})
 
@@ -249,7 +250,7 @@ class Store(Base):
 
     # 表的结构:
     id              = Column(Integer, primary_key=True)
-    store_id        = Column(Integer, unique=True)
+    store_id        = Column(Integer, default=1,unique=True,autoincrement=1)
 
     # 0.admin
     # 1是旅行社
@@ -284,11 +285,13 @@ class Store(Base):
     rank            = Column(Integer)
 
    #当前开业还是关业  （0 1）
-    # operating_status = Column(Integer)
+    operating_status = Column(Integer)
     #
     # # 续费状态 什么时间过期
-    # expire_time   = Column(String)
+    expire_time   = Column(String(20))
 
+    # 最新的通知
+    latest_notice = Column(String(50))
 
 # 定义Tour_article对象:
 class Article(Base):
