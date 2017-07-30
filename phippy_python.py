@@ -162,14 +162,18 @@ def getimg():
         # file.save(os.path.join(UPLOAD_FOLDER, file.filename))
         basepath = os.path.dirname(__file__)
 
+        # 判断store分类的文件夹是否存在
+        store_dir_path = os.path.join(basepath,UPLOAD_FOLDER,'store')
+        if not os.path.exists(store_dir_path):
+            os.makedirs(store_dir_path)
 
-
+        # 判断当前商家的图片文件夹是否存在
         save_image_path = os.path.join(basepath,UPLOAD_FOLDER,store_id)
-        # 判断文件夹是否存在
         if not os.path.exists(save_image_path):
             print 'ss'
             os.makedirs(save_image_path)
 
+        # 保存图片
         file.save(os.path.join(save_image_path, 'fileName.png'))
 
         # --------------------------------------------------------------------------
