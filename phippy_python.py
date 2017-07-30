@@ -10,6 +10,15 @@ from flask import request
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+
+from users import user as user_blurprint
+from users import merchant as merchant_blurprint
+
+
+app.register_blueprint(user_blurprint,url_prefix='/user')
+app.register_blueprint(merchant_blurprint,url_prefix='/merchant')
+
+
 engine = create_engine('mysql://root:123456@127.0.0.1:3306/phippy?charset=utf8',
                        encoding="utf-8",
                        echo=False)
@@ -20,7 +29,7 @@ db_session = scoped_session(sessionmaker(autocommit=False,
 Base = declarative_base()
 Base.query = db_session.query_property()
 
-
+from users import user
 # from users import views
 # 得到商家（根据store_type区分是旅行社还是餐馆）
 @app.route('/getstore',methods=['GET','POST'])
@@ -122,12 +131,20 @@ def allowed_file(filename):
 
 @app.route('/img',methods=['POST'])
 def getimg():
-    # file = request.files['file']
-    # 表示，从request请求的files字典中，
-    # 取出file对应的文件。这个文件是一个FileStorage对象
 
-    # request的files属性，files是一个MultiDict的形式，
-    # 而里面的每个文件，都是一个FileStorage对象
+    store_id = request.form.get('store_id')
+    stores = Store.query.filter(Store.store_id == store_id).all()
+
+    if(len(stores) != 1):
+        return jsonify({'error':'错误'})
+
+
+        # file = request.files['file']
+        # 表示，从request请求的files字典中，
+        # 取出file对应的文件。这个文件是一个FileStorage对象
+
+        # request的files属性，files是一个MultiDict的形式，
+        # 而里面的每个文件，都是一个FileStorage对象
     file = request.files['file']
     if file and allowed_file(file.filename):
         # 再来看下这个函数的功能，其实他为了保证文件名不会影响到系统，
@@ -144,7 +161,16 @@ def getimg():
         # 这个文件对象还拥有一个属性来提取文件名，叫做filename
         # file.save(os.path.join(UPLOAD_FOLDER, file.filename))
         basepath = os.path.dirname(__file__)
-        file.save(os.path.join(basepath,UPLOAD_FOLDER, 'fileName.png'))
+
+
+
+        save_image_path = os.path.join(basepath,UPLOAD_FOLDER,store_id)
+        # 判断文件夹是否存在
+        if not os.path.exists(save_image_path):
+            print 'ss'
+            os.makedirs(save_image_path)
+
+        file.save(os.path.join(save_image_path, 'fileName.png'))
 
         # --------------------------------------------------------------------------
         # 获取文件和文件夹大小 (tyte)
