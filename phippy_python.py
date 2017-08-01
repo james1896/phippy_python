@@ -2,7 +2,7 @@
 import os
 
 from flask import Flask, render_template, send_from_directory, Response
-from sqlalchemy import create_engine, Column, String, Integer, DateTime, Sequence, desc
+from sqlalchemy import create_engine, Column, String, Integer, DateTime, Sequence, desc, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 from flask import jsonify
@@ -29,6 +29,14 @@ Base.query = db_session.query_property()
 
 from users import user
 
+
+@app.route('/forapp',methods=['GET','POST'])
+
+# app初始化的时候调用
+
+def forapp():
+
+    return jsonify({"a":"b"})
 
 # from users import views
 # 得到商家（根据store_type区分是旅行社还是餐馆）
@@ -451,6 +459,28 @@ class Goods(Base):
 
     # 描述
     describe = Column(String(100))
+
+
+class Sequence(Base):
+    __tablename__ = 't_sequence'
+    goods_id = Column(Integer)
+
+
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), unique=True)
+    pwd = Column(String(120), unique=False)
+    user_id = Column(String(40), unique=True)
+    email = Column(String(120), unique=False)
+
+    first_time = Column(DateTime, unique=False)
+
+    status = Column(Integer, unique=False)
+    uuid = Column(String(120), unique=False)
+    device = Column(String(50), unique=False)
+    code = Column(String(20))
 
 
 def init_db():
