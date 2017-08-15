@@ -5,4 +5,4 @@
 from phippy import app
 
 if __name__ == '__main__':
-    app.run('10.71.66.2', debug=True, port=5001)
+    app.run('10.71.66.2', port=5001)
