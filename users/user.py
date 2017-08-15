@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 # 得到商家（根据store_type区分是旅行社还是餐馆）
-from flask import request, jsonify
+from flask import request, jsonify, Blueprint
 
-from phippy_python import Store
+user = Blueprint('user',__name__)
+
+from phippy import Store
 from users import user
 
 @user.route('/')

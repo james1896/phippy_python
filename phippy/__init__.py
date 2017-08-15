@@ -1,21 +1,21 @@
 # -*- coding: utf-8 -*-
 import os
 
-from flask import Flask, render_template, send_from_directory, Response
-from sqlalchemy import create_engine, Column, String, Integer, DateTime, Sequence, desc, Float
+from flask import request
+from flask import Flask, render_template, jsonify, send_from_directory, Response
+from sqlalchemy import create_engine, desc, Integer, Column, String, DateTime, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
-from flask import jsonify
-from flask import request
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
 from users import user as user_blurprint
-from users import merchant as merchant_blurprint
+from merchant import merchant as merchant_blurprint
 
 app.register_blueprint(user_blurprint, url_prefix='/user')
 app.register_blueprint(merchant_blurprint, url_prefix='/merchant')
+
 
 engine = create_engine('mysql://root:123456@127.0.0.1:3306/phippy?charset=utf8',
                        encoding="utf-8",
@@ -26,8 +26,6 @@ db_session = scoped_session(sessionmaker(autocommit=False,
                                          bind=engine))
 Base = declarative_base()
 Base.query = db_session.query_property()
-
-from users import user
 
 
 @app.route('/forapp',methods=['GET','POST'])
@@ -523,15 +521,14 @@ class User(Base):
 def init_db():
     Base.metadata.create_all(bind=engine)
 
-
 @app.route('/')
 def hello_world():
     init_db()
     return render_template("phone_type.html")
 
 
-if __name__ == '__main__':
-    app.run('10.71.66.2', debug=True, port=5001)
+# if __name__ == '__main__':
+#     app.run('10.71.66.2', debug=True, port=5001)
 
 
 # 在您的应用当中以一个显式调用 SQLAlchemy , 您只需要将如下代码放置在您应用的模块中。

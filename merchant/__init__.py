@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from flask import Blueprint
 
-user        = Blueprint('user',__name__)
+merchant    = Blueprint('merchant',__name__)
