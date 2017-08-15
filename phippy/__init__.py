@@ -10,8 +10,8 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
-from users import user as user_blurprint
-from merchant import merchant as merchant_blurprint
+from users.user import user as user_blurprint
+from merchant.merchant import merchant as merchant_blurprint
 
 app.register_blueprint(user_blurprint, url_prefix='/user')
 app.register_blueprint(merchant_blurprint, url_prefix='/merchant')

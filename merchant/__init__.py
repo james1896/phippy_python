@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint
 
-merchant    = Blueprint('merchant',__name__)
+# from flask import Blueprint
+# merchant    = Blueprint('merchant',__name__)
