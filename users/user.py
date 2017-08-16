@@ -2,8 +2,9 @@
 
 # 得到商家（根据store_type区分是旅行社还是餐馆）
 from flask import request, jsonify
-
-from phippy import Store, Article, Goods
+from phippy.model.article import Article
+from phippy.model.goods import Goods
+from phippy.model.store import Store
 from . import user
 
 @user.route('/')
@@ -14,8 +15,8 @@ def app_index():
 # 得到商家（根据store_type区分是旅行社还是餐馆）
 @user.route('/getstore', methods=['GET', 'POST'])
 def findStore():
-    if request.method != 'POST':
-        return jsonify({"msg": "is not post"})
+    # if request.method != 'POST':
+    #     return jsonify({"msg": "is not post"})
 
     store_type = request.form.get('store_type')
     stores = Store.query.filter(Store.store_type == store_type).all()

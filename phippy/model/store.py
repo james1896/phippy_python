@@ -6,6 +6,7 @@ from sqlalchemy import Column, Integer, String
 from phippy import Base
 
 
+
 class Store(Base):
     # 表的名字:
     __tablename__ = 't_store'

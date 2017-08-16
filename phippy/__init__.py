@@ -2,23 +2,15 @@
 import os
 
 from flask import request
-from flask import Flask, render_template, jsonify, send_from_directory, Response
-from sqlalchemy import create_engine, desc
+from flask import Flask, render_template, jsonify
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
-from werkzeug.utils import secure_filename
 
 from phippy.config import SQLALCHEMY_DATABASE_URI
 
-
 app = Flask(__name__)
 
-
-# 注册蓝图
-from users.user import user as user_blurprint
-from merchant.merchant import merchant as merchant_blurprint
-app.register_blueprint(user_blurprint, url_prefix='/user')
-app.register_blueprint(merchant_blurprint, url_prefix='/merchant')
 
 
 #加载配置文件内容
@@ -40,9 +32,14 @@ Base = declarative_base()
 Base.query = db_session.query_property()
 
 
-from phippy.model.article import Article
-from phippy.model.goods import Goods
-from phippy.model.store import Store
+# 注册蓝图
+from users.user import user as user_blurprint
+from merchant.merchant import merchant as merchant_blurprint
+
+app.register_blueprint(user_blurprint, url_prefix='/user')
+app.register_blueprint(merchant_blurprint, url_prefix='/merchant')
+
+
 
 
 @app.route('/')

@@ -2,11 +2,18 @@
 import os
 
 from flask import Blueprint, request, jsonify, send_from_directory, Response
-from sqlalchemy import desc
+from sqlalchemy import desc, engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.utils import secure_filename
-from phippy import Store, Goods, db_session
+# from phippy import Store, Goods, db_session
+from phippy import db_session
+from phippy.model.store import Store
+from phippy.model.goods import Goods
 
-merchant    = Blueprint('merchant',__name__)
+
+from . import merchant
+
 
 @merchant.route('/')
 def app_index():
