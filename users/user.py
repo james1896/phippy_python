@@ -6,9 +6,6 @@ from flask import request, jsonify
 from phippy import Store, Article, Goods
 from . import user
 
-# from phippy import Store
-
-
 @user.route('/')
 def app_index():
     return "hello user"

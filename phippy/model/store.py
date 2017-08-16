@@ -25,6 +25,9 @@ class Store(Base):
     # 店名
     name = Column(String(50))
 
+    # 店主名字
+    shopkeeper_name = Column(String(8))
+
     # 商家展示图片
     img_url = Column(String(100))
 
@@ -48,6 +51,9 @@ class Store(Base):
 
     # 当前开业还是关业  （0 1）
     operating_status = Column(Integer)
+
+    # 当前开是否接收线上订餐  （0 1）
+    online_order = Column(Integer)
     #
     # # 续费状态 什么时间过期
     expire_time = Column(String(20))

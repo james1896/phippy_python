@@ -40,3 +40,6 @@ class Goods(Base):
 
     # 描述
     describe = Column(String(100))
+
+    # 当前开是否接收线上订餐  （0 1）
+    online_order = Column(Integer)
