@@ -11,7 +11,13 @@ from phippy.config import SQLALCHEMY_DATABASE_URI
 
 app = Flask(__name__)
 
-
+# rsa解密
+# def decryption(encode_value):
+#     return rsaCipher.decryptionWithString(encode_value, random_generator)
+# # 解密成string
+# decodeStr = decryption(value)
+# # jsonn --> dictt
+# value_dict = json.loads(decodeStr)
 
 #加载配置文件内容
 app.config.from_object('phippy.config')     #模块下的setting文件名，不用加py后缀
