@@ -67,6 +67,9 @@ app.register_blueprint(merchant_blurprint, url_prefix='/merchant')
 #
 #######################################################
 
+weater_last_update_time = ''
+weather_temp_c          = ''
+
 def my_job():
     print time.strftime('请求时间: %Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     try:
@@ -83,7 +86,9 @@ def my_job():
 
         new_dict = json.loads(res)
         current_dict = new_dict['current']
-        print(current_dict['last_updated'],current_dict['temp_c'])
+        weater_last_update_time = current_dict['last_updated']
+        weather_temp_c          = current_dict['temp_c']
+        print(weater_last_update_time, weather_temp_c)
     except Exception,e:
         print e
 
