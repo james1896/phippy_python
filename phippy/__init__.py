@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
 
-from flask import request
+import time
+
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.blocking import BlockingScheduler
+from flask import request, json
 from flask import Flask, render_template, jsonify
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -46,11 +51,50 @@ app.register_blueprint(user_blurprint, url_prefix='/user')
 app.register_blueprint(merchant_blurprint, url_prefix='/merchant')
 
 
+###############################################################################################
+################################### 定时任务 两小时一次获得当前天气 ###############################
 
+#######################################################
+#                                                     #
+#                   参考网址                           #
+#   python调度框架APScheduler使用详解                   #
+#   http://www.cnblogs.com/hushaojun/p/5189109.html   #
+#                                                     #
+#######################################################
+
+def my_job():
+    print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    try:
+
+        import urllib, urllib2
+        url = 'http://api.apixu.com/v1/current.json?key=36aebc1dd360486b98382012173008&q=Makati'
+        # textmod = {'user': 'admin', 'password': 'admin'}
+        # textmod = urllib.urlencode(textmod)
+        # print(textmod)
+        # 输出内容:password=admin&user=admin
+        req = urllib2.Request(url=url)
+        res = urllib2.urlopen(req)
+        res = res.read()
+
+        new_dict = json.loads(res)
+        current_dict = new_dict['current']
+        print(current_dict['last_updated'],current_dict['temp_c'])
+    except Exception,e:
+        print e
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(my_job, 'interval', hours=2)
+scheduler.start()    #这里的调度任务是独立的一个线程
+# sched = BlockingScheduler()
+# sched.add_job(my_job, 'interval', hours=2)
+# sched.start()
+
+###############################################################################################
 
 @app.route('/')
 def hello_world():
     init_db()
+
     return render_template("app_download.html")
     # return render_template("phone_type.html")
 

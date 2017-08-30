@@ -123,5 +123,35 @@ class FeedBack(Base):
         self.content    = content
         self.user_id    = user_id
 
+# #########################   当前天气 表结构    #####################################################
+# class Weather(Base):
+#     __tablename__ = 't_weather'
+#     id              = Column(Integer, primary_key=True)
+#     localtime       = Column(DateTime, unique=False)
+#     temp_c          = Column(String(10), unique=False)
+#
+#     # 当前天气情况 Overcast( 阴天的)
+#     condition_text  = Column(String(10))
+#     # 当前天气对应的图标
+#     icon            = Column(String(50))
+#
+#     wind_mph = Column(String(5))
+#     wind_kph = Column(String(5))
+#     wind_degree = Column(String(5))
+#     wind_dir = Column(String(5))
+#     pressure_mb = Column(String(5))
+#     pressure_in = Column(String(5))
+#     precip_mm = Column(String(5))
+#     precip_in = Column(String(5))
+#     humidity = Column(String(5))
+#     cloud = Column(String(5))
+#     feelslike_c = Column(String(5))
+#     feelslike_f = Column(String(5))
+#     vis_km = Column(String(5))
+#     vis_miles = Column(String(5))
+#     def __init__(self,time = None,content = None,user_id = None):
+#         self.localtime       = time
+#         self.temp_c    = content
+
 
 
