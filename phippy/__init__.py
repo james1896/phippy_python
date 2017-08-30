@@ -61,9 +61,12 @@ app.register_blueprint(merchant_blurprint, url_prefix='/merchant')
 #   http://www.cnblogs.com/hushaojun/p/5189109.html   #
 #                                                     #
 #######################################################
+#               api 接口
+#       https://www.apixu.com/my/
+#######################################################
 
 def my_job():
-    print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    print time.strftime('请求时间: %Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     try:
 
         import urllib, urllib2
