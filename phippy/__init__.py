@@ -51,7 +51,8 @@ app.register_blueprint(merchant_blurprint, url_prefix='/merchant')
 @app.route('/')
 def hello_world():
     init_db()
-    return render_template("phone_type.html")
+    return render_template("app_download.html")
+    # return render_template("phone_type.html")
 
 
 @app.route('/forapp',methods=['GET','POST'])

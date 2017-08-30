@@ -1,0 +1,222 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+	<title>phippy官网</title>
+	<meta name="keywords" content="phippy" />
+	<meta name="description" content="啪啪啪" />
+	
+
+	<style>
+
+		html, body,
+		div, span, header, footer, main, nav, section,
+		ul, li, ol,
+		select, input, textarea, button,
+		h1, h2, h3, h4, h5, h6, p,
+		table, td,
+		fieldset, legend {
+			margin: 0;
+			padding: 0;
+		}
+		html, body {
+			background: transparent;
+		}
+		body,
+		input, button, select {
+			font: 14px/1em 'Microsoft Yahei';
+		}
+		a {
+			text-decoration: none;
+		}
+		a img {
+			border: 0;
+		}
+		ol, ul, li {
+			list-style: none;
+		}
+		table, td, th {
+			border-collapse: collapse;
+		}
+		:focus {
+			outline: 0;
+		}
+		h1 {
+			font-size: 32px;
+		}
+		h2 {
+			font-size: 24px;
+		}
+		h3 {
+			font-size: 18px;
+		}
+		h4 {
+			font-size: 16px;
+		}
+		h5 {
+			font-size: 12px;
+		}
+		h6 {
+			font-size: 10px;
+		}
+		p {
+			word-wrap: break-word;
+		}
+		:root {
+			font-size: 10px;
+		}
+		html, body, .container, .app {height:100%;}
+		body {background:url(../static/images/bg.jpg); background-size:100% 100%; background-position:0 0; background-repeat: no-repeat;}
+		.app {display:-webkit-box; display:-moz-box; display:flex;
+			-webkit-box-orient:vertical; -moz-box-orient:vertical; box-orient:vertical;
+			-webkit-flex-direction:column; -moz-flex-direction: column; flex-direction: column; flex-flow: column;
+			-webkit-flex-wrap: nowrap; -moz-flex-wrap: nowrap; flex-wrap: nowrap;
+			min-width:320px; max-width:1280px; position:relative; margin:0 auto; padding:0;}
+		.app.hidden {display:none;}
+		.app .m_bg{width:100%; height:auto;}
+
+		.app .m_bg header{height:auto; width:100%; background:#FFCCFF; text-align:center;}
+		.app .m_bg header .app_logo{display:block; margin:0 30.46875%; padding:12px 0;}
+		.app .m_bg header .app_logo img{width:100%; height:auto;}
+
+		.app .m_bg .content ._01{text-align:center; color:#fff; line-height:normal;}
+		.app .m_bg .content .h2title{display:block; font-weight:bold; font-size:5rem !important; margin:60px 0 0 0;}
+		.app .m_bg .content p._p01{font-size:2.3rem; display:block; margin:28px 0 0 0;}
+
+
+		.app .m_bg .content .bttn_con{width:100%; height:auto; margin:0;}
+		.app .m_bg .content .bttn_con a{display:block; font-size:2.3rem; color:#fff; }
+		.app .m_bg .content .bttn_con a.btn1{height:70px; line-height:70px; background:#f28e00; margin:54px 14.0625% 0 14.0625%; border-radius:6px;}
+		.app .m_bg .content .bttn_con a.btn1.disabled {background: #a25f00;}
+
+		.app .m_bg .content .app_icons{width:100%; height:auto; margin:0; text-align:center;}
+		.app .m_bg .content .app_icons span{font-size:2.1rem; color:#fff; display:inline-block; height:33px; line-height:33px; margin-top:28px;}
+		.app .m_bg .content .app_icons i{display:inline-block; background:transparent; margin:0 9px; width:27px; height:33px;}
+		.app .m_bg .content .app_icons i.android{background:url(../static/images/i_android.png); background-size:cover;}
+		.app .m_bg .content .app_icons i.apple{background:url(../static/images/i_ios.png); background-size:cover; margin-left:21px;}
+
+
+
+
+		@media screen and (min-width:414px) and (max-width:767px){
+			.app .m_bg header .app_logo{padding:6px 0;}
+
+			.app .m_bg .content .h2title{font-size:2.5rem !important; margin:30px 0 0 0;}
+			.app .m_bg .content p._p01{font-size:1.3rem; display:block; margin:14px 0 0 0;}
+
+
+			.app .m_bg .content .bttn_con a{font-size:1.3rem;}
+			.app .m_bg .content .bttn_con a.btn1{height:35px; line-height:35px; margin:27px 14.0625% 0 14.0625%; border-radius:3px;}
+
+
+			.app .m_bg .content .app_icons span{font-size:1.2rem; height:33px; line-height:16.5px; margin-top:14px;}
+			.app .m_bg .content .app_icons i{margin:0 4.5px; width:13.5px; height:16.5px; }
+		}
+
+		.m_mobile {
+			-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1; flex: 1;
+			background:url(../static/images/phone.png?999999999);
+			background-size:auto 100%; background-position:50% 0; background-repeat: no-repeat;
+		}
+
+
+		@media screen and (max-width:413px){
+			.app .m_bg header .app_logo{padding:6px 0;}
+
+			.app .m_bg .content .h2title{font-size:2.5rem !important; margin:30px 0 0 0;}
+			.app .m_bg .content p._p01{font-size:1.3rem; display:block; margin:14px 0 0 0;}
+
+
+			.app .m_bg .content .bttn_con a{font-size:1.3rem;}
+			.app .m_bg .content .bttn_con a.btn1{height:35px; line-height:35px; margin:27px 14.0625% 0 14.0625%; border-radius:3px;}
+
+
+			.app .m_bg .content .app_icons span{font-size:1.2rem; height:33px; line-height:16.5px; margin-top:14px;}
+			.app .m_bg .content .app_icons i{margin:0 4.5px; width:13.5px; height:16.5px; }
+		}
+		#wechat {position:relative;display:none;width:100%;}
+		#wechat img {display:block; width:100%; height:auto;}
+		#wechat .close {position:absolute;top:0;right:0;width:13%;padding-top:13%;}
+
+	</style>
+	<script type="text/javascript" src="../static/js/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<main class="app" id="browser-content">
+		<div class="m_bg">
+			<header>
+				<a href="/" class="app_logo" >
+					<img src="../static/images/app_logo.png">
+				</a>
+			</header>
+			<div class="content">
+				<section class="_01">
+					<div class="h2title">APP展示页面</div>
+					<p class="_p01">H5页面</p>
+					<div class="bttn_con">
+						<a id="install-apk-btn" href="#" class="btn1">立即安装</a>
+					</div>
+					<div class="app_icons">
+						<span class="android-info" id="android-v-text"><i class="android"></i>Android 4.13以上</span>
+						<span class="apple-info" id="iphone-v-text"><i class="apple"></i>IOS 8以上</span>
+					</div>
+				</section>
+			</div>
+		</div>
+		<div class="m_mobile"></div>
+	</main>
+	<div id="wechat"><div class="close"></div><img src="../static/images/wechat_help_sc2.jpg"></div>
+</div>
+<script>
+	/*
+	 * 检查浏览器环境，返回1，代表微信；返回2代表Android浏览器；返回3，代表iphone浏览器；0代表其他
+	 */
+	function checkBrowser() {
+		var ua = window.navigator.userAgent.toLowerCase();
+		if (/micromessenger/.test(ua)) {
+			return 1;
+		} else {
+			if (/android/.test(ua)) {
+				return 2;
+			} else if (/iphone/.test(ua) || /ipad/.test(ua)) {
+				return 3;
+			}
+		}
+		return 0;
+	}
+	var browserInfo = checkBrowser();
+
+	var android_url = 'http://www.baidu.com/app/android/release/android_app_mobile_1.0.4.apk';
+	var ios_url = 'itms-services://?action=download-manifest&amp;url=https://www.baidu.com/app/iphone/release/iphone_baidu_mobile_1.0.0.plist';
+
+	if (browserInfo == 1) {
+		$("#install-apk-btn").click(function(e) {
+			document.getElementById("wechat").style.display='block';
+			$("#browser-content").addClass("hidden");
+			e.preventDefault();
+			return false;
+		});
+		$("#wechat .close").click(function(e) {
+			document.getElementById("wechat").style.display='none';
+			$("#browser-content").removeClass("hidden");
+			e.preventDefault();
+			return false;
+		});
+	} else if (browserInfo == 2) {
+		$('#iphone-v-text').remove();
+		$('#install-apk-btn').attr('href', android_url);
+	} else if (browserInfo == 3) {
+		$('#android-v-text').remove();
+		$('#install-apk-btn').attr('href', ios_url);
+		$('.m_mobile').addClass("iphone");
+	} else {
+		$('#iphone-v-text').remove();
+		$('#install-apk-btn').attr('href', android_url);
+	} 
+
+</script>
+<script type="text/javascript" src="../static/js/md5.js"></script>
+<script src="../static/js/palcode.min.js"></script>
+</body>
+</html>
