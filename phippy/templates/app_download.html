@@ -188,8 +188,8 @@
 	var browserInfo = checkBrowser();
 
 	var android_url = 'http://www.baidu.com/app/android/release/android_app_mobile_1.0.4.apk';
-	var ios_url = 'itms-services://?action=download-manifest&amp;url=https://www.baidu.com/app/iphone/release/iphone_baidu_mobile_1.0.0.plist';
-
+{#	var ios_url = 'itms-services://?action=download-manifest&amp;url=https://www.baidu.com/app/iphone/release/iphone_baidu_mobile_1.0.0.plist';#}
+    var ios_url ='https://itunes.apple.com/ph/app/wechat/id414478124?mt = 8'
 	if (browserInfo == 1) {
 		$("#install-apk-btn").click(function(e) {
 			document.getElementById("wechat").style.display='block';
