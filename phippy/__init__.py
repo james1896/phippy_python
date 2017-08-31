@@ -46,10 +46,11 @@ Base.query = db_session.query_property()
 # 注册蓝图
 from users.user import user as user_blurprint
 from merchant.merchant import merchant as merchant_blurprint
+from common.common import common as common_blurprint
 
 app.register_blueprint(user_blurprint, url_prefix='/user')
 app.register_blueprint(merchant_blurprint, url_prefix='/merchant')
-
+app.register_blueprint(common_blurprint, url_prefix='/common')
 
 ###############################################################################################
 ################################### 定时任务 两小时一次获得当前天气 ###############################
@@ -67,28 +68,33 @@ app.register_blueprint(merchant_blurprint, url_prefix='/merchant')
 #
 #######################################################
 
+
+
+# Partly cloudy  局部多云
+
 weater_last_update_time = ''
 weather_temp_c          = ''
+weather_condition_text  = ''
+weather_condition_icon  = ''
+
 
 def my_job():
     print time.strftime('请求时间: %Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     try:
 
         import urllib, urllib2
-        url = 'http://api.apixu.com/v1/current.json?key=36aebc1dd360486b98382012173008&q=Makati'
-        # textmod = {'user': 'admin', 'password': 'admin'}
-        # textmod = urllib.urlencode(textmod)
-        # print(textmod)
-        # 输出内容:password=admin&user=admin
-        req = urllib2.Request(url=url)
+        req = urllib2.Request(url='http://api.apixu.com/v1/current.json?key=36aebc1dd360486b98382012173008&q=Makati')
         res = urllib2.urlopen(req)
         res = res.read()
 
-        new_dict = json.loads(res)
-        current_dict = new_dict['current']
+        current_dict = json.loads(res)
+        current_dict = current_dict['current']
         weater_last_update_time = current_dict['last_updated']
         weather_temp_c          = current_dict['temp_c']
-        print(weater_last_update_time, weather_temp_c)
+        condition_dict = current_dict['condition']
+        weather_condition_text = condition_dict['text']
+
+        print(weater_last_update_time, weather_temp_c,weather_condition_text)
     except Exception,e:
         print e
 
