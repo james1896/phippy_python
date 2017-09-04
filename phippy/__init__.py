@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-import os
 
-import time
-
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.schedulers.blocking import BlockingScheduler
-from flask import request, json
 from flask import Flask, render_template, jsonify
 
 from sqlalchemy import create_engine

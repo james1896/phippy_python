@@ -4,12 +4,23 @@
 from flask import request, jsonify
 from phippy.model.article import Article
 from phippy.model.goods import Goods
+from phippy.model.order import Order
 from phippy.model.store import Store
+from phippy.model.venv import Venv
 from . import user
 
 @user.route('/')
 def app_index():
     return "hello user"
+
+@user.route('/initializeUser', methods=['GET', 'POST'])
+def initializeUser():
+    if request.method != 'POST':
+        return jsonify({"msg": "is error"})
+
+    # version = Venv.query.filter(Venv.version_user == store_type).all()
+    return jsonify({'code':'100'})
+
 
 # from users import views
 # 得到商家（根据store_type区分是旅行社还是餐馆）
@@ -20,6 +31,7 @@ def findStore():
 
     store_type = request.form.get('store_type')
     stores = Store.query.filter(Store.store_type == store_type).all()
+    order = Order.query.filter().all()
     list = []
     for store in stores:
         dict = {}
@@ -43,7 +55,7 @@ def findStore():
 @user.route('/getarticle', methods=['GET', 'POST'])
 def getarticle():
     if request.method != 'POST':
-        return jsonify({"msg": "is not post"})
+        return jsonify({"msg": "is error"})
 
     articles = Article.query.filter().all()
     list = []
@@ -64,7 +76,7 @@ def getarticle():
 @user.route('/getgoods', methods=['POST'])
 def getfood():
     if request.method != 'POST':
-        return jsonify({"msg": "is not post"})
+        return jsonify({"msg": "is error"})
 
     store_id = request.form.get('store_id')
     goods = Goods.query.filter(Goods.store_id == store_id).all()

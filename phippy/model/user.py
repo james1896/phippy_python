@@ -6,7 +6,7 @@ from phippy import Base
 
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = 't_users'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True)

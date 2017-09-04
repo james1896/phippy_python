@@ -30,6 +30,7 @@ class OrderDetailList(Base):
     id = Column(Integer, primary_key=True)
     # 订单ID (设置为外键)
     order_id = Column(String(20))
+    good_name = Column(String(20))
 
 class Sequence(Base):
     __tablename__ = 't_sequence'
