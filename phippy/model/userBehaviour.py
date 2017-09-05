@@ -11,11 +11,13 @@ class Userbehaviour(Base):
 
     id          = Column(Integer, primary_key=True)
     username    = Column(String(20), unique=False)
-    time   = Column(DateTime, unique=False)
+    ip          = Column(String(20), unique=False)
+    time        = Column(DateTime, unique=False)
     uuid        = Column(String(120), unique=False)
     device      = Column(String(50), unique=False)
-    version = Column(String(50), unique=False)
-    ip          = Column(String(20), unique=False)
+    version     = Column(String(8), unique=False)
+    language    = Column(String(15), unique=False)
+
 
     # user_id     = Column(Integer, ForeignKey('users.id'))
 

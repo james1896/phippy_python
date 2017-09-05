@@ -24,28 +24,48 @@ def initializeUser():
     if request.method != 'POST':
         return jsonify({"msg": "is error", statusCode:code.isNotPost})
 
-    versionNumber = '1.0.0'
+    ip      = request.form.get('ip')
+    userid  = request.form.get('userid')
+    time    = request.form.get('time')
+    uuid    = request.form.get('uuid')
+    device  = request.form.get('device')
+    version = request.form.get('version')
+    language = request.form.get('language')
 
+    print ip
+    print userid
+    print time
+    print uuid
+    print device
+    print version
+    print language
+    print "------------"
+    isupdate = 0
     try:
         venv = Venv.query.filter().first()
-        print venv.android_version_user
+
 
         from common.common import versionCompare
-        res = versionCompare(venv.android_version_user,versionNumber)
-        if res == 0:
+        isupdate = versionCompare(venv.android_version_user,version)
+        if isupdate == 0:
             print "当前app是最新版本"
 
-        elif res == 1:
+        elif isupdate == 1:
             print "有新版本，请更新"
 
-        elif res == -1:
+        elif isupdate == -1:
+            # 有错误不暴漏
+            isupdate = 0
             print '有错误'
+        else:
+            print '参数错误'
 
 
     except Exception,e:
         print e
 
-    return jsonify({statusCode:code.success})
+    return jsonify({statusCode:code.success,
+                    code.isUpdate:isupdate})
 
 
 # from users import views

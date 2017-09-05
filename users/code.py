@@ -8,6 +8,7 @@ isNotPost   = 4000
 
 
 getgoods_param_error = 4010
+isUpdate = 'isUpdate'
 
 
 
