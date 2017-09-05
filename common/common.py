@@ -31,18 +31,19 @@ def versionCompare(v1="1.1.1", v2="1.2"):
         pass
     for i in range(len(v1_list)):
         if int(v1_list[i]) > int(v2_list[i]):
-            return "v1大"
+            return 1
         if int(v1_list[i]) < int(v2_list[i]):
-            return "v2大"
-    return "相等"
+            return -1
+    return 0
 
 # 测试用例
-print(versionCompare(v1="", v2=""))
-print(versionCompare(v1="1.0.a", v2="d.0.1"))
-print(versionCompare(v1="1.0.1", v2="1.0.1"))
-print(versionCompare(v1="1.0.2", v2="1.0.1"))
-print(versionCompare(v1="1.4.1", v2="2.1.2"))
-print(versionCompare(v1="1.0.11", v2="1.0.2"))
+# print(versionCompare(v1="", v2=""))
+# print(versionCompare(v1="1.0.a", v2="d.0.1"))
+# print(versionCompare(v1="1.0.1", v2="1.0.1"))
+# print(versionCompare(v1="1.0.2", v2="1.0.1"))
+# print(versionCompare(v1="1.4.1", v2="2.1.2"))
+# print(versionCompare(v1="1.0.11", v2="1.0.2"))
+
 ###########################################################################
 ############### 定时任务 两小时一次获得当前天气 ###############################
 

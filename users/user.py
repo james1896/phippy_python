@@ -2,24 +2,50 @@
 
 # 得到商家（根据store_type区分是旅行社还是餐馆）
 from flask import request, jsonify
+
+from phippy import db_session
 from phippy.model.article import Article
 from phippy.model.goods import Goods
 from phippy.model.order import Order
 from phippy.model.store import Store
 from phippy.model.venv import Venv
+from users import code
 from . import user
+from code import statusCode
 
 @user.route('/')
 def app_index():
     return "hello user"
 
+#version , platform(ios_phippy,android_phippy)
+
 @user.route('/initializeUser', methods=['GET', 'POST'])
 def initializeUser():
     if request.method != 'POST':
-        return jsonify({"msg": "is error"})
+        return jsonify({"msg": "is error", statusCode:code.isNotPost})
 
-    # version = Venv.query.filter(Venv.version_user == store_type).all()
-    return jsonify({'code':'100'})
+    versionNumber = '1.0.0'
+
+    try:
+        venv = Venv.query.filter().first()
+        print venv.android_version_user
+
+        from common.common import versionCompare
+        res = versionCompare(venv.android_version_user,versionNumber)
+        if res == 0:
+            print "当前app是最新版本"
+
+        elif res == 1:
+            print "有新版本，请更新"
+
+        elif res == -1:
+            print '有错误'
+
+
+    except Exception,e:
+        print e
+
+    return jsonify({statusCode:code.success})
 
 
 # from users import views
@@ -48,7 +74,7 @@ def findStore():
         dict['rank'] = store.rank
 
         list.append(dict)
-    return jsonify({"interface": "得到商家", 'data': list})
+    return jsonify({statusCode: code.success, 'data': list})
 
 
 # 得到旅行相关的文章
@@ -69,7 +95,7 @@ def getarticle():
         dict['rank'] = article.rank
 
         list.append(dict)
-    return jsonify({"interface": "得到旅行相关的文章", 'data': list})
+    return jsonify({statusCode: code.success, 'data': list})
 
 
 # 得到餐品
@@ -78,22 +104,27 @@ def getfood():
     if request.method != 'POST':
         return jsonify({"msg": "is error"})
 
-    store_id = request.form.get('store_id')
-    goods = Goods.query.filter(Goods.store_id == store_id).all()
-    list = []
-    for tmp in goods:
-        dict = {}
-        dict['goods_id'] = tmp.goods_id
-        dict['store_id'] = tmp.store_id
-        dict['name'] = tmp.name
-        dict['price'] = tmp.price
-        dict['rank'] = tmp.rank
-        dict['img_url'] = tmp.img_url
-        dict['publish_time'] = tmp.publish_time
-        dict['publisher'] = tmp.publisher
-        dict['remark'] = tmp.remark
-        dict['describe'] = tmp.describe
+    try:
+        store_id = request.form.get('store_id')
+        goods = Goods.query.filter(Goods.store_id == store_id).all()
+        list = []
+        for tmp in goods:
+            dict = {}
+            dict['goods_id'] = tmp.goods_id
+            dict['store_id'] = tmp.store_id
+            dict['name'] = tmp.name
+            dict['price'] = tmp.price
+            dict['rank'] = tmp.rank
+            dict['img_url'] = tmp.img_url
+            dict['publish_time'] = tmp.publish_time
+            dict['publisher'] = tmp.publisher
+            dict['remark'] = tmp.remark
+            dict['describe'] = tmp.describe
 
-        list.append(dict)
+            list.append(dict)
 
-    return jsonify({"interface": "得到餐品", 'data': list})
+        return jsonify({statusCode: code.success, 'data': list})
+    except Exception,e:
+        print e
+        return jsonify({statusCode:code.getgoods_param_error})
+
