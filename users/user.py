@@ -47,7 +47,6 @@ def initializeUser():
     print "------------"
 
     strs = device.split('|')
-    print strs
 
     # 字符串拆分不符合规则
     if len(strs) != 2:
@@ -56,9 +55,9 @@ def initializeUser():
     latestVersion = ''
 
     # 查询当前最新版本号
+    venv = Venv()
     try:
         venv = Venv.query.filter().first()
-        print venv
     except Exception,e:
         print e
 
@@ -71,10 +70,7 @@ def initializeUser():
         device = strs[1]
         latestVersion = venv.android_version_user
 
-    isupdate = 0
-
     from common.common import versionCompare
-
     isupdate = versionCompare(latestVersion,version)
     if isupdate == 0:
         print "当前app是最新版本"
@@ -84,7 +80,7 @@ def initializeUser():
 
     elif isupdate == -1:
         # 有错误不暴漏
-        isupdate = 1
+        isupdate = -1
         print '有错误'
     else:
         print '参数错误'
