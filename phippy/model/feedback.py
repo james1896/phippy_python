@@ -8,6 +8,7 @@ from phippy import Base
 
 class FeedBack(Base):
     __tablename__ = 't_feedback'
+
     id      = Column(Integer, primary_key=True)
     time    = Column(DateTime, unique=False)
     content = Column(String(500), unique=False)

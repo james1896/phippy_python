@@ -24,6 +24,7 @@ def app_index():
 
 @user.route('/initializeUser', methods=['GET', 'POST'])
 def initializeUser():
+
     if request.method != 'POST':
         return jsonify({"msg": "is error", statusCode:code.isNotPost})
 
@@ -90,22 +91,21 @@ def initializeUser():
 
     # 收集用户信息入库
     if isupdate == 0 or isupdate == 1:
-        behaviour = Userbehaviour()
-        behaviour.ip = ip
-        behaviour.username = userid
-        behaviour.time = datetime.today()
-        behaviour.uuid = uuid
-        behaviour.device = device
-        behaviour.version = version
-        behaviour.language = language
-        behaviour.platform = platform
+
+        behaviour           = Userbehaviour()
+        behaviour.ip        = ip
+        behaviour.username  = userid
+        behaviour.time      = datetime.today()
+        behaviour.uuid      = uuid
+        behaviour.device    = device
+        behaviour.version   = version
+        behaviour.language  = language
+        behaviour.platform  = platform
         try:
             db_session.add(behaviour)
             db_session.commit()
         except Exception,e:
             print e
-
-
 
     return jsonify({statusCode:code.success,
                     code.isUpdate:isupdate})
@@ -124,19 +124,19 @@ def findStore():
     list = []
     for store in stores:
         dict = {}
+        dict['adress'] = store.adress
+        dict['name'] = store.name
+        dict['rank'] = store.rank
+        dict['wechat'] = store.wechat
+        dict['img_url'] = store.img_url
         dict['store_id'] = store.store_id
         dict['store_type'] = store.store_type
-        dict['name'] = store.name
-        dict['img_url'] = store.img_url
-        dict['phone_number'] = store.phone_number
-        dict['wechat'] = store.wechat
         dict['deliver_time'] = store.deliver_time
+        dict['phone_number'] = store.phone_number
         dict['qisong_condition'] = store.qisong_condition
 
-        dict['adress'] = store.adress
-        dict['rank'] = store.rank
-
         list.append(dict)
+
     return jsonify({statusCode: code.success, 'data': list})
 
 
