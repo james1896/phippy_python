@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
 # 得到商家（根据store_type区分是旅行社还是餐馆）
+from  datetime  import  *
+
 from flask import request, jsonify
 
 from phippy import db_session
+from phippy.model.userBehaviour import Userbehaviour
 from phippy.model.article import Article
 from phippy.model.goods import Goods
 from phippy.model.order import Order
@@ -31,6 +34,7 @@ def initializeUser():
     device  = request.form.get('device')
     version = request.form.get('version')
     language = request.form.get('language')
+    platform = ''
 
     print ip
     print userid
@@ -40,29 +44,68 @@ def initializeUser():
     print version
     print language
     print "------------"
-    isupdate = 0
+
+    strs = device.split('|')
+    print strs
+
+    # 字符串拆分不符合规则
+    if len(strs) != 2:
+        return jsonify({statusCode:4100})
+
+    latestVersion = ''
+
+    # 查询当前最新版本号
     try:
         venv = Venv.query.filter().first()
-
-
-        from common.common import versionCompare
-        isupdate = versionCompare(venv.android_version_user,version)
-        if isupdate == 0:
-            print "当前app是最新版本"
-
-        elif isupdate == 1:
-            print "有新版本，请更新"
-
-        elif isupdate == -1:
-            # 有错误不暴漏
-            isupdate = 0
-            print '有错误'
-        else:
-            print '参数错误'
-
-
+        print venv
     except Exception,e:
         print e
+
+    if 'ios' in strs[0].lower():
+        platform = 'ios'
+        device = strs[1]
+        latestVersion = venv.ios_version_user
+    if 'android' in strs[0].lower():
+        platform = 'android'
+        device = strs[1]
+        latestVersion = venv.android_version_user
+
+    isupdate = 0
+
+    from common.common import versionCompare
+
+    isupdate = versionCompare(latestVersion,version)
+    if isupdate == 0:
+        print "当前app是最新版本"
+
+    elif isupdate == 1:
+        print "有新版本，请更新"
+
+    elif isupdate == -1:
+        # 有错误不暴漏
+        isupdate = 1
+        print '有错误'
+    else:
+        print '参数错误'
+
+    # 收集用户信息入库
+    if isupdate == 0 or isupdate == 1:
+        behaviour = Userbehaviour()
+        behaviour.ip = ip
+        behaviour.username = userid
+        behaviour.time = datetime.today()
+        behaviour.uuid = uuid
+        behaviour.device = device
+        behaviour.version = version
+        behaviour.language = language
+        behaviour.platform = platform
+        try:
+            db_session.add(behaviour)
+            db_session.commit()
+        except Exception,e:
+            print e
+
+
 
     return jsonify({statusCode:code.success,
                     code.isUpdate:isupdate})
