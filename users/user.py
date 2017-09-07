@@ -26,7 +26,7 @@ def app_index():
 def initializeUser():
 
     if request.method != 'POST':
-        return jsonify({"msg": "is error", statusCode:code.isNotPost})
+        return jsonify({statusCode:code.isNotPost})
 
     ip      = request.form.get('ip')
     userid  = request.form.get('userid')
@@ -50,7 +50,7 @@ def initializeUser():
 
     # 字符串拆分不符合规则
     if len(strs) != 2:
-        return jsonify({statusCode:4100})
+        return jsonify({statusCode:code.internalError})
 
     latestVersion = ''
 
@@ -59,6 +59,7 @@ def initializeUser():
     try:
         venv = Venv.query.filter().first()
     except Exception,e:
+        return jsonify({statusCode: code.sql_error})
         print e
 
     if 'ios' in strs[0].lower():
@@ -82,8 +83,10 @@ def initializeUser():
         # 有错误不暴漏
         isupdate = -1
         print '有错误'
+        return jsonify({statusCode: code.internalError})
     else:
         print '参数错误'
+        return jsonify({statusCode: code.internalError})
 
     # 收集用户信息入库
     if isupdate == 0 or isupdate == 1:
@@ -101,6 +104,7 @@ def initializeUser():
             db_session.add(behaviour)
             db_session.commit()
         except Exception,e:
+            return jsonify({statusCode: code.sql_error})
             print e
 
     return jsonify({statusCode:code.success,
@@ -111,12 +115,11 @@ def initializeUser():
 # 得到商家（根据store_type区分是旅行社还是餐馆）
 @user.route('/getstore', methods=['GET', 'POST'])
 def findStore():
-    # if request.method != 'POST':
-    #     return jsonify({"msg": "is not post"})
+    if request.method != 'POST':
+        return jsonify({statusCode:code.isNotPost})
 
     store_type = request.form.get('store_type')
     stores = Store.query.filter(Store.store_type == store_type).all()
-    order = Order.query.filter().all()
     list = []
     for store in stores:
         dict = {}
@@ -140,7 +143,7 @@ def findStore():
 @user.route('/getarticle', methods=['GET', 'POST'])
 def getarticle():
     if request.method != 'POST':
-        return jsonify({"msg": "is error"})
+        return jsonify({statusCode:code.isNotPost})
 
     articles = Article.query.filter().all()
     list = []
@@ -161,7 +164,7 @@ def getarticle():
 @user.route('/getgoods', methods=['POST'])
 def getfood():
     if request.method != 'POST':
-        return jsonify({"msg": "is error"})
+        return jsonify({statusCode:code.isNotPost})
 
     try:
         store_id = request.form.get('store_id')
@@ -185,5 +188,5 @@ def getfood():
         return jsonify({statusCode: code.success, 'data': list})
     except Exception,e:
         print e
-        return jsonify({statusCode:code.getgoods_param_error})
+        return jsonify({statusCode:code.sql_error})
 

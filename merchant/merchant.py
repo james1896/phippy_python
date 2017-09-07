@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 import os
 
-from flask import Blueprint, request, jsonify, send_from_directory, Response
-from sqlalchemy import desc, engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import scoped_session, sessionmaker
+from flask import request, jsonify, send_from_directory, Response
+from sqlalchemy import desc
+
 from werkzeug.utils import secure_filename
-# from phippy import Store, Goods, db_session
+
 from phippy import db_session
 from phippy.model.store import Store
 from phippy.model.goods import Goods
-
+from users import code
+from users.code import statusCode
 
 from . import merchant
 
@@ -32,12 +32,11 @@ def addgoods():
 
     # 判断 store_id 是否正确
     if (len(stores) != 1):
-        return jsonify({'error': '错误'})
+        return jsonify({statusCode: code.addgoods_not_find_storeid})
 
     # 降序排列
     goods = Goods.query.order_by(desc(Goods.goods_id)).limit(1)
 
-    add_goods_id = 0
     if goods:
 
         # 插入数据

@@ -3,7 +3,6 @@ import time
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import json
-
 from . import common
 
 @common.route('/')

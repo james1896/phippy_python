@@ -32,9 +32,3 @@ class OrderDetailList(Base):
     order_id = Column(String(20))
     good_name = Column(String(20))
 
-class Sequence(Base):
-    __tablename__ = 't_sequence'
-    id = Column(Integer, primary_key=True)
-    goods_id = Column(Integer)
-    name = Column(String(20))
-    count = Column(Integer)
