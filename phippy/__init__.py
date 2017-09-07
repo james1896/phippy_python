@@ -43,11 +43,12 @@ Base.query = db_session.query_property()
 from users.user import user as user_blurprint
 from merchant.merchant import merchant as merchant_blurprint
 from common.common import common as common_blurprint
+from master.master import master as master_blurprint
 
 app.register_blueprint(user_blurprint, url_prefix='/user')
 app.register_blueprint(merchant_blurprint, url_prefix='/merchant')
 app.register_blueprint(common_blurprint, url_prefix='/common')
-
+app.register_blueprint(master_blurprint, url_prefix='/master')
 
 
 @app.route('/')

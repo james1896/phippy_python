@@ -50,7 +50,11 @@ class Store(Base):
     # 排行
     rank = Column(Integer)
 
-    # 当前开业还是关业  （0 1）
+    #
+    # 待审核  0
+    # 开业    1
+    # 关业    2
+
     operating_status = Column(Integer)
 
     # 当前开是否接收线上订餐  （0 1）
