@@ -104,8 +104,9 @@ def initializeUser():
             db_session.add(behaviour)
             db_session.commit()
         except Exception,e:
-            return jsonify({statusCode: code.sql_error})
             print e
+            return jsonify({statusCode: code.sql_error})
+
 
     return jsonify({statusCode:code.success,
                     code.isUpdate:isupdate})

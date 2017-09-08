@@ -8,14 +8,14 @@ from phippy import Base
 class User(Base):
     __tablename__ = 't_users'
 
-    id = Column(Integer, primary_key=True)
-    user_name = Column(String(50), unique=True)
-    pwd = Column(String(120), unique=False)
-    user_id = Column(String(40), unique=True)
+    id          = Column(Integer, primary_key=True)
+    user_name   = Column(String(50), unique=True)
+    pwd         = Column(String(120), unique=False)
+    user_id     = Column(String(40), unique=True)
     phonen_umber = Column(String(20), unique=False)
-    money = Column(Float, unique=False)
-    points = Column(Float, unique=False)
-    email = Column(String(30), unique=False)
+    money       = Column(Float, unique=False)
+    points      = Column(Float, unique=False)
+    email       = Column(String(30), unique=False)
 
     # 国籍
     nationality = Column(String(20), unique=False)
