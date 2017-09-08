@@ -2,6 +2,11 @@
 #!flask/bin/python
 
 
+# pip freeze > requirements.txt
+# pip install -r requirements.txt
+
+# Flask-Script==2.0.5
+# livereload==2.3.2
 from phippy import app
 
 if __name__ == '__main__':

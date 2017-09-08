@@ -2,9 +2,7 @@
 
 # 定义商家对象:
 from sqlalchemy import Column, Integer, String
-
 from phippy import Base
-
 
 
 class Store(Base):
